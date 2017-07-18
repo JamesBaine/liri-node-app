@@ -2,20 +2,16 @@ var fs = require("fs");
 
 var request = require("request");
 
-var twitter = require("twitter");
+var Twitter = require("twitter");
 
-var spotify = require("node-spotify-api");
+var Spotify = require("node-spotify-api");
+
+var spotify = new Spotify({
+  id: "7638b62a01c64c0ea21da8a01af99cc9",
+  secret: "b0b09469e3e547339f4b0800226d53ed"
+});
 
 var keys = require("./keys.js");
-
-var params = 20;
-
-var client = new twitter({
-  consumer_key: keys.twitterKeys.consumer_key,
-  consumer_secret: keys.twitterKeys.consumer_secret,
-  access_token_key: keys.twitterKeys.access_token_key,
-  access_token_secret: keys.twitterKeys.access_token_secret
-});
 
 var command = process.argv[2];
 
@@ -41,6 +37,12 @@ switch(command){
 }
 
 function myTweets() {
+  var client = new Twitter(keys.twitterKeys);
+
+  var params = {
+    screen_name: "arrogantswami66"
+  };
+
   client.get("statuses/user_timeline", params, function(error, tweets, response) {
     if(!error) {
       var max = 20;
@@ -70,9 +72,9 @@ function spotifySong(input){
 }
 
 function spotifyErr(){
-  spotify.search({ type: 'track', query: 'The Sign' }, function(err, data) {
+  spotify.search({ type: "track", query: "The Sign" }, function(err, data) {
     if ( err ) {
-      console.log('Error occurred: ' + err);
+      console.log("Error occurred: " + err);
     } else if (!err) {
       console.log("Song: The Sign");
       console.log("Artist: " + JSON.stringify(data.tracks.items[3].album.artists[0].name, null, 2));
