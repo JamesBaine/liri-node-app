@@ -17,28 +17,38 @@ var command = process.argv[2];
 
 var input = process.argv[3];
 
-switch(command){
+var order = function(command, input){
 
-  case "my-tweets":
-    myTweets();
-  break;
+  switch(command){
 
-  case "spotify-this-song":
-    spotifySong(input);
-  break;
+    case "my-tweets":
+      myTweets();
+    break;
 
-  case "movie-this":
-    getMovie(input);
-  break;
+    case "spotify-this-song":
+      spotifySong(input);
+    break;
 
-  case "do-what-it-says":
-    console.log("do it");
-  break;
+    case "movie-this":
+      getMovie(input);
+    break;
 
-  default:
-    console.log("something went wrong");
-  return;
-}
+    case "do-what-it-says":
+      doWhatItSays();
+    break;
+
+    default:
+      console.log("something went wrong");
+    return;
+  }
+
+};
+
+var runThis = function(command, input){
+  order(command, input);
+};
+
+runThis(command, input);
 
 function myTweets() {
   var client = new Twitter(keys.twitterKeys);
@@ -111,3 +121,17 @@ function getMovie(movieTitle) {
     }
   });
 };
+
+function doWhatItSays(){
+  fs.readFile("random.txt", "utf8", function(error, data){
+    console.log(data);
+
+    var dataArr = data.split(",");
+
+    if(dataArr.length === 2){
+      order(dataArr[0], dataArr[1]);
+    } else if (dataArr.length === 1){
+      order(dataArr[0]);
+    }
+  })
+}
