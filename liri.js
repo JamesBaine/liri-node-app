@@ -27,6 +27,10 @@ switch(command){
     spotifySong(input);
   break;
 
+  case "movie-this":
+    getMovie(input);
+  break;
+
   case "do-what-it-says":
     console.log("do it");
   break;
@@ -83,3 +87,27 @@ function spotifyErr(){
     }
   });
 }
+
+function getMovie(movieTitle) {
+  if (movieTitle === undefined ){
+    movieTitle = "Mr Nobody";
+  }
+
+  var url = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=full&tomatoes=true&apikey=40e9cece";
+
+  request(url, function(error, response, body){
+    if(!error && response.statusCode === 200){
+      var jsonData = JSON.parse(body);
+
+      console.log("Title: " + jsonData.Title);
+      console.log("Year: " + jsonData.Year);
+      console.log("Rated: " + jsonData.Rated);
+      console.log("IMBD Rating:" + jsonData.imbdRating);
+      console.log("Country: " + jsonData.Country);
+      console.log("Language: " + jsonData.Language);
+      console.log("Plot: " + jsonData.Plot);
+      console.log("Actors: " + jsonData.Actors);
+      console.log("Rotten Tomatoes URL: " + jsonData.tomatoURL);
+    }
+  });
+};
