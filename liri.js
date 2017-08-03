@@ -1,5 +1,9 @@
 var fs = require("fs");
 
+// It looks like you forgot to pass the '--save' flag to your
+// `npm install` command when installing the twitter and request
+// packages. It was missing in your package.json and I was not 
+// able to run your program w/out them.
 var request = require("request");
 
 var Twitter = require("twitter");
@@ -16,6 +20,7 @@ var keys = require("./keys.js");
 var command = process.argv[2];
 
 var input = process.argv[3];
+
 
 var order = function(command, input){
 
@@ -44,7 +49,7 @@ var order = function(command, input){
 
 };
 
-var runThis = function(command, input){
+var runThis = function(command, input) {
   order(command, input);
 };
 
@@ -66,7 +71,7 @@ function myTweets() {
           break;
         }
       }
-    } else if (error) {
+    } else (error) {
       console.log(error);
     }
   });
@@ -76,7 +81,7 @@ function spotifySong(input){
   spotify.search({ type: "track", query: input }, function(err, data) {
     if(err) {
       spotifyErr();
-    } else if (!err) {
+    } else (!err) {
       console.log("Song: " + input);
       console.log("Artist: " + JSON.stringify(data.tracks.items[0].album.artists[0].name, null, 2));
       console.log("Preview Link: " + JSON.stringify(data.tracks.items[0].album.artists[0].external_urls.spotify, null, 2));
@@ -89,7 +94,8 @@ function spotifyErr(){
   spotify.search({ type: "track", query: "The Sign" }, function(err, data) {
     if ( err ) {
       console.log("Error occurred: " + err);
-    } else if (!err) {
+    } else (!err) {
+      // var song = JSON.stringify(data), then use the `song` var in your code
       console.log("Song: The Sign");
       console.log("Artist: " + JSON.stringify(data.tracks.items[3].album.artists[0].name, null, 2));
       console.log("Preview Link: " + JSON.stringify(data.tracks.items[3].album.artists[0].external_urls.spotify, null, 2));
